@@ -17,9 +17,17 @@
 		this.captionArea = this.popupWin.find('div.lightbox-caption-area');
 		this.captionText = this.popupWin.find('p.lightbox-desc');
 		this.currentIndex = this.popupWin.find('span.lightbox-index');
-		this.closeBtn = this.popupWin.find('span.lightbox-close-btn');
-		// console.log(this.picArea.length);
+		this.closeBtn = this.popupWin.find('span.lightbox-close-btn');		
 		
+		this.groupName = null;
+		this.groupData = [];
+		this.bodyNode.delegate('.js-lightbox, [data-role="lightbox"]', 'click', function(events){
+			// delegate the click events to the body
+			events.stopPropagation();
+			// console.log($(this).attr('data-group'));
+			__this__.groupName = $(this).attr('data-group');
+			__this__.initLightbox($(this));
+		});
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
@@ -37,6 +45,16 @@
 						'</div>';
 			this.popupWin.html(strDOM);
 			this.bodyNode.append(this.mask, this.popupWin);
+		},
+		initLightbox: function(imgObj){
+			// collect the parameters of the clicked image 
+			var imgSrc = imgObj.attr('data-source'),
+				imgId = imgObj.attr('data-id');
+			this.showLightbox(imgSrc, imgId);		
+		},
+		showLightbox: function(src, id){
+			// show the mask and the popup window
+			
 		}
 	}
 	window.Lightbox = Lightbox;
