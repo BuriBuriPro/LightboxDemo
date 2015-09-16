@@ -27,7 +27,7 @@
 			// console.log($(this).attr('data-group'));
 			__this__.groupName = $(this).attr('data-group');
 			__this__.initLightbox($(this));
-		});
+		});		
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
@@ -77,6 +77,54 @@
 				top: (winHeight - viewHeigth) / 2
 			}, function(){
 				__this__.loadImgSize(src);
+			});
+		},
+		loadImgSize: function(src){
+			// get the size of image
+			var __this__ = this;
+			this.image.css({
+				// clean the original size of image view
+				width: 'auto',
+				height: 'auto'
+			});
+			this.preLoadImg(src, function(){
+				__this__.image.attr('src', src);
+				var imgWidth = __this__.image.width(),
+					imgHeight = __this__.image.height();
+				__this__.changeImg(imgWidth, imgHeight);
+			});
+		},
+		preLoadImg: function(src, callback){
+			// load the image, and callback after loading
+			var img = new Image();
+			img.onload = function(){
+				callback();
+			}
+			img.src = src;
+		},
+		changeImg: function(width, height){
+			// set the visable image height and width
+			var __this__ = this,
+				winWidth = $(window).width(),
+				winHeight = $(window).height(),
+				// scale the image if it's too large 
+			    scale = Math.min(winWidth / (width + 10), winHeight / (height + 10), 1);
+			width *= scale;
+			height *= scale;
+			this.picArea.animate({
+				width: width,
+				height: height - 10
+			});
+			this.popupWin.animate({
+				width: width,
+				height: height -10,
+				marginLeft: - width / 2,
+				top: (winHeight - height) / 2
+			}, function(){
+				__this__.image.css({
+					width: width,
+					height: height
+				}).fadeIn();
 			});
 		}
 	}
