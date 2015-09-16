@@ -9,6 +9,16 @@
 		// console.log(this);
 		// render other DOM
 		this.renderDOM();
+		// cache of nodes of DOM
+		this.picArea = this.popupWin.find('div.lightbox-pic-area');
+		this.image = this.popupWin.find('img.lightbox-imgae');
+		this.prevBtn = this.popupWin.find('span.lightbox-prev');
+		this.nextBtn = this.popupWin.find('span.lightbox-next');
+		this.captionArea = this.popupWin.find('div.lightbox-caption-area');
+		this.captionText = this.popupWin.find('p.lightbox-desc');
+		this.currentIndex = this.popupWin.find('span.lightbox-index');
+		this.closeBtn = this.popupWin.find('span.lightbox-close-btn');
+		// console.log(this.picArea.length);
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
