@@ -6,7 +6,7 @@ body{color:#666; background-color:#fff;font: 12px/1.5 '微软雅黑',tahoma,aria
 /*style of lightbox*/
 #lightbox-mask{position: fixed;left: 0;top: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.5);z-index: 10;display: none;}
 #lightbox-popup-win{position: fixed;left: 50%;top: 0;margin-left: -200px;width: 400px;z-index: 11;display: none;}
-#lightbox-popup-win .lightbox-pic-area{position: relative;border: 5px solid white;border-radius: 3px;overflow: hidden;background: url(icon/loading.gif) no-repeat center center;}
+#lightbox-popup-win .lightbox-pic-area{position: relative;border: 5px solid white;border-radius: 3px;overflow: hidden;background: #fff url(icon/loading.gif) no-repeat center center;}
 #lightbox-popup-win .lightbox-pic-area .lightbox-btn{position: absolute;top: 0;width: 40%;height: 100%;z-index: 1;}
 #lightbox-popup-win .lightbox-pic-area .lightbox-prev{left: 0;}
 #lightbox-popup-win .lightbox-pic-area .lightbox-next{right: 0;}

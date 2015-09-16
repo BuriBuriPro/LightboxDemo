@@ -11,7 +11,7 @@
 		this.renderDOM();
 		// cache of nodes of DOM
 		this.picArea = this.popupWin.find('div.lightbox-pic-area');
-		this.image = this.popupWin.find('img.lightbox-imgae');
+		this.image = this.popupWin.find('img.lightbox-image');
 		this.prevBtn = this.popupWin.find('span.lightbox-prev');
 		this.nextBtn = this.popupWin.find('span.lightbox-next');
 		this.captionArea = this.popupWin.find('div.lightbox-caption-area');
@@ -39,8 +39,8 @@
 						'<div class="lightbox-caption-area">' +
 						'<div class="lightbox-caption">' +
 						'<p class="lightbox-desc">Here is caption.</p>' +
-						'<span class="lightbox-index">index: 0 of 0</span>' +
 						'</div>' +
+						'<span class="lightbox-index">index: 0 of 0</span>' +						
 						'<span class="lightbox-close-btn"></span>' +
 						'</div>';
 			this.popupWin.html(strDOM);
@@ -54,7 +54,30 @@
 		},
 		showLightbox: function(src, id){
 			// show the mask and the popup window
-			
+			var __this__ = this;
+			this.image.hide();
+			this.captionArea.hide();
+			this.mask.fadeIn();
+			// cache of the width and height of visible window
+			var winWidth = $(window).width(),
+				winHeight = $(window).height(),
+				viewWidth = (winWidth / 2) + 10,
+				viewHeigth = (winHeight / 2) + 10;
+			this.picArea.css({
+				width: winWidth / 2,
+				height: winHeight / 2
+			});
+			this.popupWin.fadeIn();
+			this.popupWin.css({
+				width: viewWidth,
+				height: viewHeigth,
+				marginLeft: - viewWidth / 2,
+				top: - viewHeigth
+			}).animate({
+				top: (winHeight - viewHeigth) / 2
+			}, function(){
+				__this__.loadImgSize(src);
+			});
 		}
 	}
 	window.Lightbox = Lightbox;
