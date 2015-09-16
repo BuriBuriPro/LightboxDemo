@@ -19,6 +19,7 @@
 		this.currentIndex = this.popupWin.find('span.lightbox-index');
 		this.closeBtn = this.popupWin.find('span.lightbox-close-btn');
 		// console.log(this.picArea.length);
+		
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
