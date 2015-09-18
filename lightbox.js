@@ -26,6 +26,7 @@
 			events.stopPropagation();
 			// console.log($(this).attr('data-group'));
 			__this__.groupName = $(this).attr('data-group');
+			__this__.getGroup();
 			__this__.initLightbox($(this));
 		});
 		// add close function of mask
@@ -130,7 +131,20 @@
 					width: width,
 					height: height
 				}).fadeIn();
+				// __this__.captionText.text(__this__.grou)
 			});
+		},
+		getGroup: function (){
+			// to get the data of chosen group
+			var __this__ = this,
+				groupList = this.bodyNode.find("[data-group="+this.groupName+"]");
+			groupList.each(function(){
+				__this__.groupData.push({
+					src: $(this).attr("data-source"),
+					id: $(this).attr("data-id"),
+					caption: $(this).attr("data-caption")
+				});
+			});			
 		}
 	}
 	window.Lightbox = Lightbox;
