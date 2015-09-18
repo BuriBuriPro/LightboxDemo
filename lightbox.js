@@ -40,6 +40,21 @@
 			__this__.mask.fadeOut()
 			__this__.popupWin.fadeOut();
 		});
+		// bind events of prev and next button
+		this.nextBtn.hover(function(){
+			if(!$(this).hasClass("disabled") && __this__.groupDataLength > 1){
+				$(this).addClass("lightbox-next-show");
+			}
+		}, function(){
+			$(this).removeClass("lightbox-next-show");
+		});
+		this.prevBtn.hover(function(){
+			if(!$(this).hasClass("disabled") && __this__.groupDataLength > 1){
+				$(this).addClass("lightbox-prev-show");
+			}
+		}, function(){
+			$(this).removeClass("lightbox-prev-show");
+		});
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
