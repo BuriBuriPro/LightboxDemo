@@ -1,5 +1,5 @@
 ;(function($){
-	function Lightbox(){
+	function Lightbox(){		
 		var __this__ = this;
 		// create nodes of mask and popup window
 		this.mask = $('<div id="lightbox-mask">');
@@ -29,9 +29,15 @@
 			__this__.getGroup();
 			__this__.initLightbox($(this));
 		});
+
 		// add close function of mask
 		this.mask.click(function(){
 			$(this).fadeOut();
+			__this__.popupWin.fadeOut();
+		});
+		// add close function of close button
+		this.closeBtn.click(function(){
+			__this__.mask.fadeOut()
 			__this__.popupWin.fadeOut();
 		});
 	}
@@ -143,6 +149,8 @@
 			// to get the data of chosen group
 			var __this__ = this,
 				groupList = this.bodyNode.find("[data-group="+this.groupName+"]");
+			// empty the past groupData
+			this.groupData.length = 0;
 			groupList.each(function(){
 				__this__.groupData.push({
 					src: $(this).attr("data-source"),
