@@ -17,10 +17,10 @@
 		this.captionArea = this.popupWin.find('div.lightbox-caption-area');
 		this.captionText = this.popupWin.find('p.lightbox-desc');
 		this.currentIndex = this.popupWin.find('span.lightbox-index');
-		this.closeBtn = this.popupWin.find('span.lightbox-close-btn');		
-		
+		this.closeBtn = this.popupWin.find('span.lightbox-close-btn');				
 		this.groupName = null;
 		this.groupData = [];
+		this.flag = true;
 		this.bodyNode.delegate('.js-lightbox, [data-role="lightbox"]', 'click', function(events){
 			// delegate the click events to the body
 			events.stopPropagation();
@@ -48,7 +48,8 @@
 		}, function(){
 			$(this).removeClass("lightbox-next-show");
 		}).click(function(e){
-			if(!$(this).hasClass("disabled")){
+			if(!$(this).hasClass("disabled") && __this__.flag){
+				__this__.flag = false;
 				e.stopPropagation();
 				__this__.goto("next");
 			}
@@ -60,10 +61,14 @@
 		}, function(){
 			$(this).removeClass("lightbox-prev-show");
 		}).click(function(e){
-			if(!$(this).hasClass("disabled")){
+			if(!$(this).hasClass("disabled") && __this__.flag){
+				__this__.flag = false;
 				e.stopPropagation();
 				__this__.goto("prev");
 			}
+		});
+		$(window).resize(function(){
+			__this__.loadImgSize(__this__.groupData[__this__.index].src);
 		});
 	}
 	Lightbox.prototype = {
@@ -94,7 +99,10 @@
 			var __this__ = this;
 			this.image.hide();
 			this.captionArea.hide();
-			this.mask.fadeIn();
+			this.mask.fadeIn();			
+			// get the current index
+			this.index = this.getIndexOf(id);
+			this.groupDataLength = this.groupData.length;
 			// cache of the width and height of visible window
 			var winWidth = $(window).width(),
 				winHeight = $(window).height(),
@@ -115,9 +123,18 @@
 			}, function(){
 				__this__.loadImgSize(src);
 			});
-			// get the current index
-			this.index = this.getIndexOf(id);
-			this.groupDataLength = this.groupData.length;
+			if(this.groupDataLength > 1){
+				if(this.index === 0){
+					this.prevBtn.addClass('disabled');					
+					this.nextBtn.removeClass('disabled');
+				}else if(this.index === this.groupDataLength - 1){
+					this.prevBtn.removeClass('disabled');
+					this.nextBtn.addClass('disabled');
+				}else{
+					this.prevBtn.removeClass('disabled');
+					this.nextBtn.removeClass('disabled');
+				}
+			}
 		},
 		loadImgSize: function(src){
 			// get the size of image
@@ -165,7 +182,8 @@
 					width: width,
 					height: height
 				}).fadeIn();
-				__this__.captionArea.fadeIn();				
+				__this__.captionArea.fadeIn();
+				__this__.flag = true;				
 			});
 			this.captionText.text(this.groupData[this.index].caption);
 			this.currentIndex.text("current index: " + (this.index + 1) + " of " + this.groupDataLength)
@@ -196,15 +214,17 @@
 			return index;
 		},
 		goto: function(dir){
+			this.image.hide();
+			this.captionArea.hide();
 			if(dir == "next"){
 				this.index ++;
 				if(this.index >= (this.groupDataLength - 1)){
+					console.log(this.index);
 					this.nextBtn.addClass("disabled").removeClass("lightbox-next-show");
 				}
 				if(this.index != 0){
 					this.prevBtn.removeClass("disabled");
-				}
-				this.image.hide();
+				};
 				this.loadImgSize(this.groupData[this.index].src);
 			}else if(dir == "prev"){
 				this.index --;
