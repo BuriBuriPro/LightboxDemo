@@ -27,7 +27,12 @@
 			// console.log($(this).attr('data-group'));
 			__this__.groupName = $(this).attr('data-group');
 			__this__.initLightbox($(this));
-		});		
+		});
+		// add close function of mask
+		this.mask.click(function(){
+			$(this).fadeOut();
+			__this__.popupWin.fadeOut();
+		});
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
