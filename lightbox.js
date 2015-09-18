@@ -86,7 +86,7 @@
 			});
 			// get the current index
 			this.index = this.getIndexOf(id);
-			console.log(this.index);
+			this.groupDataLength = this.groupData.length;
 		},
 		loadImgSize: function(src){
 			// get the size of image
@@ -134,8 +134,10 @@
 					width: width,
 					height: height
 				}).fadeIn();
-				__this__.captionText.text(__this__.groupData[__this__])
+				__this__.captionArea.fadeIn();				
 			});
+			this.captionText.text(this.groupData[this.index].caption);
+			this.currentIndex.text("current index: " + (this.index + 1) + " of " + this.groupDataLength)
 		},
 		getGroup: function (){
 			// to get the data of chosen group
