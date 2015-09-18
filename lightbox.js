@@ -47,6 +47,11 @@
 			}
 		}, function(){
 			$(this).removeClass("lightbox-next-show");
+		}).click(function(e){
+			if(!$(this).hasClass("disabled")){
+				e.stopPropagation();
+				__this__.goto("next");
+			}
 		});
 		this.prevBtn.hover(function(){
 			if(!$(this).hasClass("disabled") && __this__.groupDataLength > 1){
@@ -54,6 +59,11 @@
 			}
 		}, function(){
 			$(this).removeClass("lightbox-prev-show");
+		}).click(function(e){
+			if(!$(this).hasClass("disabled")){
+				e.stopPropagation();
+				__this__.goto("prev");
+			}
 		});
 	}
 	Lightbox.prototype = {
@@ -184,6 +194,29 @@
 				}
 			});
 			return index;
+		},
+		goto: function(dir){
+			if(dir == "next"){
+				this.index ++;
+				if(this.index >= (this.groupDataLength - 1)){
+					this.nextBtn.addClass("disabled").removeClass("lightbox-next-show");
+				}
+				if(this.index != 0){
+					this.prevBtn.removeClass("disabled");
+				}
+				this.image.hide();
+				this.loadImgSize(this.groupData[this.index].src);
+			}else if(dir == "prev"){
+				this.index --;
+				if(this.index <= 0){
+					this.prevBtn.addClass("disabled").removeClass("lightbox-prev-show");
+				}
+				if(this.index != (this.groupDataLength - 1)){
+					this.nextBtn.removeClass("disabled");
+				}
+				this.image.hide();
+				this.loadImgSize(this.groupData[this.index].src);
+			}
 		}
 	}
 	window.Lightbox = Lightbox;
