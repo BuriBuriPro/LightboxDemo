@@ -84,6 +84,9 @@
 			}, function(){
 				__this__.loadImgSize(src);
 			});
+			// get the current index
+			this.index = this.getIndexOf(id);
+			console.log(this.index);
 		},
 		loadImgSize: function(src){
 			// get the size of image
@@ -131,7 +134,7 @@
 					width: width,
 					height: height
 				}).fadeIn();
-				// __this__.captionText.text(__this__.grou)
+				__this__.captionText.text(__this__.groupData[__this__])
 			});
 		},
 		getGroup: function (){
@@ -145,6 +148,17 @@
 					caption: $(this).attr("data-caption")
 				});
 			});			
+		},
+		getIndexOf: function(id){
+			// get the index of clicked picture
+			var index = 0;
+			$(this.groupData).each(function(i){
+				index = i;
+				if(this.id === id){
+					return false;
+				}
+			});
+			return index;
 		}
 	}
 	window.Lightbox = Lightbox;
