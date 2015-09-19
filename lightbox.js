@@ -21,6 +21,7 @@
 		this.groupName = null;
 		this.groupData = [];
 		this.flag = true;
+		this.index = null;
 		this.bodyNode.delegate('.js-lightbox, [data-role="lightbox"]', 'click', function(events){
 			// delegate the click events to the body
 			events.stopPropagation();
@@ -34,11 +35,13 @@
 		this.mask.click(function(){
 			$(this).fadeOut();
 			__this__.popupWin.fadeOut();
+			__this__.clearFlag = false;
 		});
 		// add close function of close button
 		this.closeBtn.click(function(){
 			__this__.mask.fadeOut()
 			__this__.popupWin.fadeOut();
+			__this__.clearFlag = false;
 		});
 		// bind events of prev and next button
 		this.nextBtn.hover(function(){
@@ -67,15 +70,24 @@
 				__this__.goto("prev");
 			}
 		});
+		var timer = null;
+		this.clearFlag = true;
 		$(window).resize(function(){
-			__this__.loadImgSize(__this__.groupData[__this__.index].src);
+			if(__this__.index != null){
+				if(__this__.clearFlag){
+					window.clearTimeout(timer);				
+					timer = window.setTimeout(function(){
+						__this__.loadImgSize(__this__.groupData[__this__.index].src);
+					}, 500)
+				}
+			}
 		});
 	}
 	Lightbox.prototype = {
 		renderDOM: function(){
 			var strDOM= '<div class="lightbox-pic-area">' +
 						'<span class="lightbox-btn lightbox-prev"></span>' +
-						'<img class="lightbox-image" src="images/2-2.jpg" width="100%">' +
+						'<img class="lightbox-image" src="#" width="100%">' +
 						'<span class="lightbox-btn lightbox-next"></span>' +
 						'</div>' +
 						'<div class="lightbox-caption-area">' +
@@ -96,9 +108,9 @@
 		},
 		showLightbox: function(src, id){
 			// show the mask and the popup window
-			var __this__ = this;
+			var __this__ = this;			
+			this.captionArea.hide();					
 			this.image.hide();
-			this.captionArea.hide();
 			this.mask.fadeIn();			
 			// get the current index
 			this.index = this.getIndexOf(id);
@@ -122,6 +134,7 @@
 				top: (winHeight - viewHeigth) / 2
 			}, function(){
 				__this__.loadImgSize(src);
+				__this__.clearFlag = true;
 			});
 			if(this.groupDataLength > 1){
 				if(this.index === 0){
@@ -136,8 +149,10 @@
 				}
 			}
 		},
-		loadImgSize: function(src){
-			// get the size of image
+		loadImgSize: function(src){	
+			// get the size of image			
+			this.image.hide();
+			this.captionArea.hide();
 			var __this__ = this;
 			this.image.css({
 				// clean the original size of image view
