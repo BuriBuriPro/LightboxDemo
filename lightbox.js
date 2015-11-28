@@ -6,7 +6,6 @@
 		this.popupWin = $('<div id="lightbox-popup-win">');
 		// cache of body node
 		this.bodyNode = $('body');
-		// console.log(this);
 		// render other DOM
 		this.renderDOM();
 		// cache of nodes of DOM
@@ -25,7 +24,6 @@
 		this.bodyNode.delegate('.js-lightbox, [data-role="lightbox"]', 'click', function(events){
 			// delegate the click events to the body
 			events.stopPropagation();
-			// console.log($(this).attr('data-group'));
 			__this__.groupName = $(this).attr('data-group');
 			__this__.getGroup();
 			__this__.initLightbox($(this));
@@ -234,7 +232,6 @@
 			if(dir == "next"){
 				this.index ++;
 				if(this.index >= (this.groupDataLength - 1)){
-					console.log(this.index);
 					this.nextBtn.addClass("disabled").removeClass("lightbox-next-show");
 				}
 				if(this.index != 0){
