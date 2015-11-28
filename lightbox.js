@@ -1,6 +1,7 @@
 ;(function($){
 	function Lightbox(){		
 		var __this__ = this;
+		console.log(this)
 		// create nodes of mask and popup window
 		this.mask = $('<div id="lightbox-mask">');
 		this.popupWin = $('<div id="lightbox-popup-win">');
